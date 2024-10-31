@@ -14,7 +14,7 @@ class FIFOCache(BaseCaching):
         """Discards the first item  in the cache and adds
         a new one
         """
-        if key is not None or item is not None:
+        if key is not None and item is not None:
             self.cache_data[key] = item
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
                 first_key = list(self.cache_data.keys())[0]
