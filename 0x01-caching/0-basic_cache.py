@@ -9,6 +9,11 @@ class BasicCache(BaseCaching):
     """A class that inherits from BaseCaching and implements
     a caching system using dictionaries as a basic
     caching system"""
+
+    def __init__(self):
+        """Initiliaze"""
+        super().__init__()
+
     def put(self, key, item):
         """Put an item in the cache
         """
