@@ -5,25 +5,28 @@ from base_caching import BaseCaching
 
 
 class LIFOCache(BaseCaching):
-    """A class that displays the use of LIFO algorithm to
-    cache data
-    """
+    """A class implementing LIFO caching policy"""
     def __init__(self):
         """Initialize"""
         super().__init__()
-        self.last_key = None
+        self.lifo_cache = []  # Tracks the order of insertion
 
     def put(self, key, item):
-        """ Use LIFO to remove an item and add a new one"""
+        """Add an item in the cache using LIFO policy"""
         if key is not None and item is not None:
+            # Remove the key from LIFO order if it exists
+            if key in self.lifo_cache:
+                self.lifo_cache.remove(key)
+
             self.cache_data[key] = item
-            self.last_key = key
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            del self.cache_data[self.last_key]
-            print('DISCARD: {}'.format(self.last_key))
+            self.lifo_cache.append(key)
+
+            # If cache exceeds max size, discard the last item in LIFO order
+            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+                last_key = self.lifo_cache.pop(-2)
+                del self.cache_data[last_key]
+                print('DISCARD: {}'.format(last_key))
 
     def get(self, key):
         """Get an item by key from the cache"""
-        if key is not None:
-            return self.cache_data.get(key)
-        return None
+        return self.cache_data.get(key) if key is not None else None
