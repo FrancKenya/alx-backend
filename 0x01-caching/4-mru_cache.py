@@ -12,23 +12,27 @@ class MRUCache(BaseCaching):
         """ Initiliaze
         """
         super().__init__()
-        self.cache_data = OrderedDict()
+        self.list_1 = []
 
     def put(self, key, item):
         """ Add an item in the cache after removing the most recently used item
         """
         if key is not None and item is not None:
-            self.cache_data.pop(key)
+            if len(self.list_1) == self.MAX_ITEMS:
+                if key not in self.list_1:
+                    leftmost = self.list_1.pop()
+                    print("DISCARD: {}".format(leftmost))
+                    del self.cache_data[leftmost]
+                else:
+                    self.list_1.remove(key)
+            self.list_1.append(key)
             self.cache_data[key] = item
-
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            mru_item = next(reversed(self.cache_data))
-            del self.cache_data[mru_item]
-            print('DISCARD: {}'.format(mru_item))
 
     def get(self, key):
         """ Get an item by key from the cache
         """
-        if key is not None:
+        if key is not None and key in self.list_1:
+            self.list_1.remove(key)
+            self.list_1.append(key)
             return self.cache_data.get(key)
         return None
