@@ -15,6 +15,8 @@ class LRUCache(BaseCaching):
     def put(self, key, item):
         """Delete the least recently used item and add a new one"""
         if key is not None and item is not None:
+            if key in self.cache_data:
+                self.cache_data.pop(key)
             self.cache_data[key] = item
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
                 lru = next(iter(self.cache_data))
@@ -23,6 +25,7 @@ class LRUCache(BaseCaching):
 
     def get(self, key):
         """Get an item by key from the cache"""
-        if key is not None:
+        if key is not None and key in self.cache_data:
+            self.cache_data.move_to_end(key)
             return self.cache_data.get(key)
         return None
