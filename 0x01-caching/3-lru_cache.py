@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ Implementation of a LRU algorithm caching system
 """
 from base_caching import BaseCaching
@@ -6,14 +6,14 @@ from collections import OrderedDict
 
 
 class LRUCache(BaseCaching):
-    """"""
+    """This class inherits from BaseCaching and implements the LRU algorithm"""
     def __init__(self):
         """Initiliaze"""
         super().__init__()
         self.cache_data = OrderedDict()
 
     def put(self, key, item):
-        """"""
+        """Delete the least recently used item and add a new one"""
         if key is not None and item is not None:
             self.cache_data[key] = item
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
