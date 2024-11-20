@@ -5,7 +5,7 @@ determines the best language match
 """
 
 from flask import Flask, render_template, request
-from flask_babel import Babel, localeselector
+from flask_babel import Babel
 
 
 class Config:
@@ -20,7 +20,7 @@ app.config.from_object(Config)
 babel = Babel(app)
 
 
-@localeselector
+@babel.localeselector
 def get_locale() -> str:
     """Determines the best match for the supported languages"""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
@@ -33,4 +33,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run('0.0.0.0', '5000')
