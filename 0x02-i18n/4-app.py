@@ -8,10 +8,8 @@ from flask_babel import Babel, gettext
 def _(text: str) -> str:
     """
     Marks the given string for translation using gettext.
-
     Args:
         text (str): The text to be translated.
-
     Returns:
         str: The translated text.
     """
