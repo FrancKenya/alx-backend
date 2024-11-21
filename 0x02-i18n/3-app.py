@@ -25,7 +25,7 @@ def get_locale() -> str:
 
 @app.route('/')
 def index():
-    """Function rendering the index page with the welcome message"""
+    """Function rendering the index page"""
     return render_template('3-index.html')
 
 
