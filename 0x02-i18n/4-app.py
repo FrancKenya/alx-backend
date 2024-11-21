@@ -3,7 +3,13 @@
 
 from flask import Flask, render_template, request
 from flask_babel import Babel, gettext as _
-#: _ is an alias for the gettext function that marks strings for translation
+
+_: """
+Alias for the gettext function provided by Flask-Babel.
+
+Use this function to mark strings for translation in
+the templates or Python code.
+"""
 
 
 class Config:
@@ -21,9 +27,11 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale() -> str:
     """
-    Determines the best match for the supported languages
-    It first checks for the locale query parameter and then
-    falls back to the default locale if not matched
+    Determines the best match for the supported languages.
+
+    It first checks for the `locale` query parameter in the request. If
+    the locale is supported, it is returned. Otherwise, it defaults
+    to the best match based on the request headers.
     """
     # starts with checking for the locale query parameters
     locale = request.args.get('locale')
