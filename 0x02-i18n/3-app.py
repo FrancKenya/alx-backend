@@ -3,6 +3,7 @@
 
 from flask import Flask, render_template, request
 from flask_babel import Babel, gettext as _
+#: _ is an alias for the gettext function that marks strings for translation
 
 
 class Config:
