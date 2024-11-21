@@ -2,15 +2,20 @@
 """Displays the use of gettext and _ to parametrize templates"""
 
 from flask import Flask, render_template, request
-from flask_babel import Babel, gettext as _
+from flask_babel import Babel, gettext
 
-_: """
-Alias for the gettext function provided by Flask-Babel.
 
-Use this function to mark strings for translation in
-the templates or Python code.
-"""
+def _(text: str) -> str:
+    """
+    Marks the given string for translation using gettext.
 
+    Args:
+        text (str): The text to be translated.
+
+    Returns:
+        str: The translated text.
+    """
+    return gettext(text)
 
 class Config:
     """Configuration class for the flask app"""
