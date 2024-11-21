@@ -17,6 +17,7 @@ def _(text: str) -> str:
     """
     return gettext(text)
 
+
 class Config:
     """Configuration class for the flask app"""
     LANGUAGES = ["en", "fr"]
