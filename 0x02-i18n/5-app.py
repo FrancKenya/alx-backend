@@ -1,37 +1,26 @@
 #!/usr/bin/env python3
 """
-Flask application demonstrating Babel for translations and
-a simple user login emulation using URL parameters.
+Flask application to demonstrate user login emulation with Babel translations.
 """
 
 from flask import Flask, render_template, request, g
 from flask_babel import Babel, gettext
-from typing import Dict, Optional
+from typing import Optional, Dict
 
-
-def _(text: str) -> str:
-    """
-    Marks the given string for translation using gettext.
-    Args:
-        text (str): The text to be translated.
-    Returns:
-        str: The translated text.
-    """
-    return gettext(text)
+app = Flask(__name__)
 
 
 class Config:
-    """Configuration class for the flask app."""
+    """Flask app configuration class."""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
-app = Flask(__name__)
 app.config.from_object(Config)
 babel = Babel(app)
 
-# Mocked users table
+# Mocked user table
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
     2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
@@ -42,9 +31,9 @@ users = {
 
 def get_user(login_as: Optional[str]) -> Optional[Dict]:
     """
-    Fetches the user from the mocked users table.
+    Retrieve user from the mocked user table.
     Args:
-        login_as (str): User ID passed as a string in the `login_as` parameter.
+        login_as (str): User ID passed as string in the `login_as` parameter.
     Returns:
         dict or None: User dictionary if found, otherwise None.
     """
@@ -56,10 +45,10 @@ def get_user(login_as: Optional[str]) -> Optional[Dict]:
 @app.before_request
 def before_request():
     """
-    Set the logged-in user in the global flask.g object.
+    Set the logged-in user in the global `flask.g` object.
 
-    The user is fetched from the mocked users table based on the
-    `login_as` parameter in the request.
+    Fetches the user ID from the `login_as` URL parameter and sets
+    the user in the `g` global object.
     """
     login_as = request.args.get('login_as')
     g.user = get_user(login_as)
@@ -68,11 +57,11 @@ def before_request():
 @babel.localeselector
 def get_locale() -> str:
     """
-    Determines the best match for the supported languages.
+    Determine the best match for supported languages.
 
-    It first checks for the `locale` query parameter in the request. If
-    the locale is supported, it is returned. Otherwise, it defaults
-    to the best match based on the request headers.
+    It first checks the `locale` query parameter in the request. If the
+    locale is supported, it is returned. Otherwise, it defaults to the
+    best match based on the request headers.
     """
     locale = request.args.get('locale')
     if locale and locale in app.config['LANGUAGES']:
@@ -82,7 +71,7 @@ def get_locale() -> str:
 
 @app.route('/')
 def index():
-    """Render the index page with a dynamic welcome message."""
+    """Render the home page with dynamic welcome message."""
     return render_template('5-index.html')
 
 
