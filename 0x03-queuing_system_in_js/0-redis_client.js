@@ -9,7 +9,7 @@ client.on('connect', () => {
 });
 
 client.on('error', (err) => {
-  console.error(`Redis client not connected to the server: ${err.toString()}`);
+  console.error(`Redis client not connected to the server: Error: Redis connection to ${client.options.socket.host}:${client.options.socket.port} failed - ${err.message}`);
 });
 
 client.connect();
