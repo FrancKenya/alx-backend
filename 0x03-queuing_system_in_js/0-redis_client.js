@@ -12,3 +12,7 @@ client.on('connect', () => {
 client.on('error', (err) => {
   console.error(`Redis client not connected to the server: ${err.toString()}`);
 });
+
+client.connect().catch((err) => {
+  console.error(`Redis client not connected to the server: ${err.message}`);
+});
